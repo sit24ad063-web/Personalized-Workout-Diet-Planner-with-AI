@@ -8,7 +8,7 @@ from groq import Groq
 st.set_page_config(layout="wide")
 load_dotenv()
 
-groq_api_key = os.getenv("GROQ_API_KEY")
+groq_api_key = st.secrets["GROQ_API_KEY"]
 client = Groq(api_key=groq_api_key)
 
 # -------------------- IMAGE LOADER --------------------
@@ -196,5 +196,6 @@ if st.session_state.plan:
         st.markdown("## 🤖 Your Personalized Plan")
         st.markdown(st.session_state.plan)
         st.markdown("</div>", unsafe_allow_html=True)
+
 
 st.markdown("</div>", unsafe_allow_html=True)
