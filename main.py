@@ -1,12 +1,11 @@
 import os
 import base64
 import streamlit as st
-from dotenv import load_dotenv
 from groq import Groq
 
 # -------------------- CONFIG --------------------
 st.set_page_config(layout="wide")
-load_dotenv()
+
 
 groq_api_key = st.secrets["GROQ_API_KEY"]
 client = Groq(api_key=groq_api_key)
@@ -199,3 +198,4 @@ if st.session_state.plan:
 
 
 st.markdown("</div>", unsafe_allow_html=True)
+
