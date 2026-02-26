@@ -5,7 +5,6 @@ from groq import Groq
 # -------------------- CONFIG --------------------
 st.set_page_config(layout="wide")
 
-# Use Streamlit Secrets (Cloud Safe)
 groq_api_key = st.secrets["GROQ_API_KEY"]
 client = Groq(api_key=groq_api_key)
 
@@ -14,7 +13,7 @@ def load_local_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-hero_image_base64 = load_local_image("pic.jpg")
+hero_image_base64 = load_local_image("pic.jpg")    
 
 # -------------------- SESSION --------------------
 if "plan" not in st.session_state:
@@ -43,7 +42,6 @@ body {{background-color:#0f0f0f; font-family:'Segoe UI', sans-serif; color:white
     background:rgba(255,255,255,0.05);
     animation: float 12s infinite ease-in-out;
 }}
-
 @keyframes float {{
     0% {{transform: translateY(0px);}}
     50% {{transform: translateY(-50px);}}
@@ -55,7 +53,6 @@ body {{background-color:#0f0f0f; font-family:'Segoe UI', sans-serif; color:white
     font-weight:900;
     line-height:1.1;
 }}
-
 .hero-text p {{
     font-size:20px;
     color:#bbbbbb;
@@ -114,7 +111,7 @@ body {{background-color:#0f0f0f; font-family:'Segoe UI', sans-serif; color:white
 def generate_workout_plan(age, weight, height, goal, diet, budget, location):
 
     prompt = f"""
-Create a structured weekly workout and nutrition plan.
+Create a structured and clean weekly workout and nutrition plan.
 
 User:
 - Age: {age}
@@ -132,21 +129,17 @@ STRICT RULES:
 - Separate workout and nutrition clearly
 """
 
-    try:
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": "You are an elite fitness coach."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.6,
-            max_tokens=700
-        )
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": "You are an elite fitness coach and formatting specialist."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.6,
+        max_tokens=900
+    )
 
-        return response.choices[0].message.content
-
-    except Exception as e:
-        return f"⚠️ Groq API Error: {str(e)}"
+    return response.choices[0].message.content
 
 # -------------------- CALORIE SECTION --------------------
 st.markdown('<div class="glass">', unsafe_allow_html=True)
@@ -202,4 +195,3 @@ if st.session_state.plan:
         st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
-
