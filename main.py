@@ -134,7 +134,7 @@ STRICT RULES:
 
     try:
         response = client.chat.completions.create(
-            model="llama3-70b-8192",
+            model="llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": "You are an elite fitness coach."},
                 {"role": "user", "content": prompt}
@@ -202,3 +202,4 @@ if st.session_state.plan:
         st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
